@@ -28,6 +28,21 @@ class SephoraProdsSpider(scrapy.Spider):
             # Extract data from the brand page
             # We are sedning way too many requests to the server. We need to slow down the requests
 
-            product_details = response.xpath("(//div[@class='css-foh208'])[2]")
+            product_details = response.xpath("(//div[@class='css-foh208'])")
+            for product in product_details:
+                product_detailed_link= product.xpath(".//@href").get()
+                yield response.follow("https://www.sephora.com" + product_detailed_link,callback=self.parse_product_page)
+            #Use for debugging purposes
+            #print(product_detailed_link)
 
-            print(product_details)
+    def parse_product_page(self,response):
+        # Extract data from the product page
+        product_likes = response.xpath("//span[@class='css-jk94q9']/text()").get()
+        product_name = response.xpath("//a[contains(@class, 'css-11cofee') and contains(@class, 'eanm77i0')]/text()").get()
+        product_category = response.xpath("//a[contains(@class, 'css-sdfa4l') and contains(@class, 'eanm77i0')").get()
+        product_size = response.xpath("//span[@class='css-7b7t20']/descendant-or-self::text()").get().strip()
+        product_price = response.xpath("//span[@class='css-jk94q9']/text()").get()
+        product_reviewCount = response.xpath("//span[@class='css-jk94q9']/text()").get()
+        product_rating = response.xpath("//span[@class='css-jk94q9']/text()").get()
+        product_brand= response.xpath("//h1/text()").get()
+        print(product_likes)
