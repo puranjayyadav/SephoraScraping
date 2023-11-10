@@ -56,6 +56,7 @@ class SephoraProdsSpider(scrapy.Spider):
         seph_item['product_likes'] = response.xpath("//span[@class='css-jk94q9']/text()").get()
         seph_item['product_name'] = response.xpath("//a[contains(@class, 'css-11cofee') and contains(@class, 'eanm77i0')]/text()").get()
         # seph_item['product_category'] = response.xpath("//a[contains(@class, 'css-sdfa4l') and contains(@class, 'eanm77i0')").get()
+        #product_category = response.xpath("//a[@class='css-sdfa4l eanm77i0']").get()
         # seph_item['product_size'] = response.xpath("//span[@class='css-7b7t20']/descendant-or-self::text()").get().strip()
         seph_item['product_price'] = response.xpath("//b[@class='css-0']/text()").get()
         seph_item['product_reviewCount'] = response.xpath("//span[@class='css-1j53ife']/text()").get()
